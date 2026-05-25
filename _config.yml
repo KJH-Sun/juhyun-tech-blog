@@ -1,0 +1,10 @@
+title: systems-field-notes
+description: Public engineering notes and field reports
+theme: minima
+markdown: kramdown
+kramdown:
+  input: GFM
+plugins:
+  - jekyll-feed
+header_pages:
+  - index.md
