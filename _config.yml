@@ -3,7 +3,7 @@ description: "실무에서 얻은 기술적 교훈과 운영 경험을 정리하
 url: "https://kjh-sun.github.io"
 baseurl: "/juhyun-tech-blog"
 lang: ko
-email: "64529208+KJH-Sun@users.noreply.github.com"
+email: "juhyun7955@gmail.com"
 theme: minima
 markdown: kramdown
 kramdown:
