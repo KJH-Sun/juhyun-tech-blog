@@ -51,7 +51,7 @@ flowchart TD
 | 특성 | HTTP/1.1 | gRPC (HTTP/2) |
 | --- | --- | --- |
 | 연결 방식 | 요청마다 새 연결 또는 짧은 keep-alive | 하나의 연결에 모든 요청을 멀티플렉싱 |
-| 연결 수명 | 짧음 (수 초 ~ 수십 초) | 김 (수십 분 ~ 수 시간) |
+| 연결 수명 | 짧음 (수 초 ~ 수십 초) | 긺 (수십 분 ~ 수 시간) |
 | LB 재분배 기회 | 연결을 맺을 때마다 다른 Pod 선택 가능 | 연결 생성 시 한 번만 endpoint 결정 |
 | 연결당 동시 요청 | 1 (또는 파이프라이닝) | 수백~수천 스트림 동시 가능 |
 
@@ -73,7 +73,7 @@ flowchart LR
     style G2P1 fill:#5f2d2d,stroke:#ff6b6b,color:#fff
 ```
 
-## 문제 1: rollout은 성공했는데, 요청은 흔들렸다
+## 문제 1: rollout은 성공했지만 요청은 불안정했다
 
 ### 현상
 
@@ -183,16 +183,16 @@ preStop(20s) < sidecar drain(30s) < app shutdown(80s) < terminationGracePeriod(1
 
 | 영역 | 영향 | 비고 |
 | --- | --- | --- |
-| 배포 프로세스 | rollout 중 에러 제거 | sidecar drain 연장 + outlier detection |
+| 배포 프로세스 | rollout 중 오류 제거 | sidecar drain 연장 + outlier detection |
 | 애플리케이션 | preStop, shutdown timeout 조정 필요 | Spring lifecycle, gRPC shutdown period |
 | 운영 | probe 설정 재점검 필요 | startup/readiness/liveness 분리 설계 |
 | QA | 재배포 시나리오 테스트 필요 | 단일/다중 서비스 동시 배포 검증 |
 
-## 문제 2: 연결을 끊어도 트래픽이 다시 같은 Pod로 갔다
+## 문제 2: 연결을 끊어도 트래픽은 다시 같은 Pod로 향했다
 
 ### 현상
 
-요청 분포를 보니 일부 상황에서 트래픽이 특정 Pod에 거의 고정되었습니다.
+요청 분포를 확인해 보니 일부 상황에서 트래픽이 특정 Pod에 거의 고정되었습니다.
 
 ### 초기 시도와 한계
 
@@ -329,15 +329,15 @@ flowchart TD
 
 | 영역 | 영향 | 비고 |
 | --- | --- | --- |
-| 네트워크 트래픽 분산 | skew 대폭 개선 | CV 0.92 → 0.002 |
+| 네트워크 트래픽 분산 | 트래픽 편중 대폭 개선 | CV 0.92 → 0.002 |
 | DestinationRule 설정 | localityLbSetting.distribute 추가 필요 | 기존 설정에 영향 없음 |
 | 운영 | Envoy /clusters 메트릭 모니터링 필요 | rq_total 분포 정기 확인 |
 
-## 문제 3: 오류는 없는데도 fan-out 요청이 느렸다
+## 문제 3: 오류는 없었지만 fan-out 요청의 지연은 컸다
 
 ### 현상
 
-특정 API는 내부적으로 downstream gRPC를 매우 많이 fan-out하고 있었습니다. 기능적으로는 정상이고 오류도 없었지만, 지연 시간이 예상보다 높았습니다.
+특정 API는 내부적으로 downstream gRPC를 매우 많이 fan-out하고 있었습니다. 기능적으로는 정상이고 오류도 없었지만, 지연 시간은 예상보다 컸습니다.
 
 ### 원인
 
@@ -447,9 +447,9 @@ flowchart TD
 
 ## 마무리
 
-운영 문제는 자주 증상 단위로 들어옵니다. 배포 에러, skew, 성능 저하처럼 각각 다른 이름으로 올라옵니다. 하지만 그 밑바닥을 따라가 보면, 같은 구조적 특성이 여러 형태로 나타난 경우가 있습니다.
+운영 문제는 대개 증상 단위로 관측됩니다. 배포 오류, skew, 성능 저하처럼 각각 다른 이름으로 드러나지만, 원인을 따라가 보면 같은 구조적 특성이 여러 형태로 나타나는 경우가 있습니다.
 
-gRPC + service mesh 환경에서 공통점은 **long-lived connection**이었습니다.
+gRPC + service mesh 환경에서 이 문제들을 관통하는 공통 배경은 **long-lived connection**이었습니다.
 
 이 관점을 얻고 나니 해결 순서도 달라졌습니다. rollout은 종료 타이밍의 문제로, skew는 endpoint selection의 문제로, fan-out 지연은 호출 구조의 문제로 다시 분리해서 볼 수 있었습니다. 그리고 각각의 설정값보다 먼저, 시스템이 연결을 **어떻게 만들고 얼마나 오래 유지하며 어디로 보내는지**를 이해하는 쪽이 훨씬 중요하다는 점을 배웠습니다.
 
