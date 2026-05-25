@@ -1,10 +1,20 @@
-title: systems-field-notes
-description: Public engineering notes and field reports
+title: 김주현의 기술 블로그
+description: "실무에서 얻은 기술적 교훈과 운영 경험을 정리하는 공간입니다."
+url: "https://kjh-sun.github.io"
+baseurl: "/juhyun-tech-blog"
 theme: minima
 markdown: kramdown
 kramdown:
   input: GFM
+  syntax_highlighter: rouge
 plugins:
   - jekyll-feed
+  - jekyll-seo-tag
 header_pages:
-  - index.md
+  - about.md
+minima:
+  skin: dark
+  date_format: "%Y-%m-%d"
+author:
+  name: 김주현
+  email: "64529208+KJH-Sun@users.noreply.github.com"
