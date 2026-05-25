@@ -2,7 +2,7 @@
 layout: post
 title: "코드베이스 탐색에 Knowledge Graph를 붙여보니, 중요한 것은 그래프보다 라우팅 규칙이었다"
 description: "LLM 기반 코드 탐색에서 Knowledge Graph가 실제로 유효한 질문과 그렇지 않은 질문을 정리한 실험 기록"
-date: 2026-06-01
+date: 2026-05-25
 tags:
   - knowledge-graph
   - llm

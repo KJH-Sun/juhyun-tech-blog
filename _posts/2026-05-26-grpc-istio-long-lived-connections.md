@@ -2,7 +2,7 @@
 layout: post
 title: "gRPC + Service Mesh 환경에서 만난 세 가지 Long-lived Connection 문제"
 description: "무중단 배포, connection skew, fan-out 병목을 하나의 long-lived connection 관점으로 다시 정리한 운영 기록"
-date: 2026-06-08
+date: 2026-05-26
 tags:
   - grpc
   - istio
