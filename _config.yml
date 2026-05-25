@@ -15,6 +15,5 @@ plugins:
 header_pages:
   - about.md
 minima:
-  skin: dark
   date_format: "%Y-%m-%d"
 author: 김주현
