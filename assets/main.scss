@@ -1,0 +1,143 @@
+---
+---
+
+@import "minima/skins/{{ site.minima.skin | default: 'classic' }}";
+@import "minima/initialize";
+
+body {
+  background: #0b1220;
+  color: #d7e0ea;
+}
+
+a {
+  color: #8cc5ff;
+}
+
+a:visited {
+  color: #b9a8ff;
+}
+
+a:hover {
+  color: #d7e0ea;
+}
+
+.site-header,
+.site-footer {
+  background: #111827;
+  border-color: #243244;
+}
+
+.site-title,
+.site-title:visited,
+.site-nav .page-link {
+  color: #f8fafc;
+}
+
+.page-content {
+  padding-top: 40px;
+}
+
+.post-title,
+.page-heading,
+.post-content h2,
+.post-content h3,
+.post-content h4 {
+  color: #f8fafc;
+}
+
+.post-content h2,
+.post-content h3,
+.post-content h4 {
+  margin-top: 40px;
+}
+
+.post-content p,
+.post-content li,
+.post-content td,
+.post-content th,
+.post-content blockquote {
+  line-height: 1.8;
+}
+
+table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+  border: 1px solid #243244;
+  border-radius: 10px;
+  background: #0f172a;
+}
+
+table th {
+  background: #162033;
+  color: #f8fafc;
+  border-color: #243244;
+}
+
+table td {
+  color: #d7e0ea;
+  border-color: #243244;
+}
+
+table tr:nth-child(even) {
+  background: #101827;
+}
+
+blockquote {
+  color: #d7e0ea;
+  border-left: 4px solid #4a9eff;
+  background: #111827;
+  padding: 16px 18px;
+  border-radius: 0 8px 8px 0;
+  letter-spacing: 0;
+  font-style: normal;
+}
+
+pre,
+code {
+  background: #111827;
+  border-color: #243244;
+  color: #d7e0ea;
+}
+
+pre {
+  padding: 14px 16px;
+  border-radius: 10px;
+}
+
+.highlighter-rouge .highlight,
+.highlight {
+  background: #111827;
+}
+
+.mermaid {
+  background: #0f172a;
+  border: 1px solid #243244;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 24px 0;
+  overflow-x: auto;
+}
+
+.post-content > ul li,
+.post-content > ol li {
+  margin-bottom: 8px;
+}
+
+.post-content hr {
+  border-color: #243244;
+}
+
+.footer-col-wrapper,
+.post-meta,
+.rss-subscribe,
+.footer-col-3,
+.contact-list,
+.social-media-list {
+  color: #94a3b8;
+}
+
+.home .post-list li {
+  padding: 18px 0;
+  border-bottom: 1px solid #243244;
+}

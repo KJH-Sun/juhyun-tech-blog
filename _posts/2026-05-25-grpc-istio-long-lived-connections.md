@@ -359,6 +359,14 @@ flowchart LR
 
 ### 해결: 호출 형태 재설계
 
+#### 실측 요약
+
+| 비교 항목 | 변경 전 | 변경 후 | 변화 |
+| --- | --- | --- | --- |
+| 요청 형태 | downstream fan-out 1000회 | batch API 1회 | 구조 단순화 |
+| end-to-end latency | 기준값 100 | 16 | **-84%** |
+| 병목 위치 | proxy event loop, packet density | 단일 batch 호출 중심 | 병목 축소 |
+
 | 접근 | 방법 | 효과 |
 | --- | --- | --- |
 | pool tuning | 연결 수, concurrent stream 조정 | 한계 있음 |

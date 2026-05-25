@@ -1,16 +1,41 @@
-<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{%- seo -%}
+<link rel="stylesheet" href="{{ '/assets/main.css' | relative_url }}">
+{%- feed_meta -%}
+
+<script defer src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
 <script>
-  mermaid.initialize({
-    startOnLoad: true,
-    theme: 'dark',
-    themeVariables: {
-      primaryColor: '#4a9eff',
-      primaryTextColor: '#fff',
-      primaryBorderColor: '#3a8eef',
-      lineColor: '#8cc5ff',
-      secondaryColor: '#2d5f8a',
-      tertiaryColor: '#1a3a52'
-    },
-    flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("pre code.language-mermaid").forEach(function (codeBlock) {
+      const diagram = document.createElement("div");
+      diagram.className = "mermaid";
+      diagram.textContent = codeBlock.textContent;
+      codeBlock.parentElement.replaceWith(diagram);
+    });
+
+    if (!window.mermaid) {
+      return;
+    }
+
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: "dark",
+      themeVariables: {
+        primaryColor: "#4a9eff",
+        primaryTextColor: "#ffffff",
+        primaryBorderColor: "#3a8eef",
+        lineColor: "#8cc5ff",
+        secondaryColor: "#2d5f8a",
+        tertiaryColor: "#1a3a52",
+        background: "#0f172a"
+      },
+      flowchart: { useMaxWidth: true, htmlLabels: true, curve: "basis" },
+      gantt: { useMaxWidth: true },
+      securityLevel: "loose"
+    });
+
+    mermaid.run({ querySelector: ".mermaid" });
   });
 </script>
